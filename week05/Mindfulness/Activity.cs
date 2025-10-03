@@ -1,11 +1,11 @@
 using System;
 using System.Threading;
 
-public class Activity
+public abstract class Activity
 {
     private string _name;
     private string _description;
-    private int _duration; // in seconds
+    protected int _duration;
 
     public Activity(string name, string description)
     {
@@ -15,48 +15,41 @@ public class Activity
 
     public void DisplayStartingMessage()
     {
-        Console.WriteLine($"Welcome to the {_name}.");
-        Console.WriteLine(_description);
-        Console.Write("How long, in seconds, would you like this session? ");
+        Console.Clear();
+        Console.WriteLine($"Welcome to the {_name}.\n");
+        Console.WriteLine($"{_description}\n");
+        Console.Write("How long (in seconds) would you like this activity to last? ");
         _duration = int.Parse(Console.ReadLine() ?? "30");
-
-        Console.WriteLine("Get ready...");
+        Console.WriteLine("\nPrepare to begin...");
         ShowSpinner(3);
     }
 
     public void DisplayEndingMessage()
     {
         Console.WriteLine("\nWell done!");
-        ShowSpinner(2);
-        Console.WriteLine($"You have completed {_duration} seconds of the {_name}.\n");
+        ShowSpinner(3);
+        Console.WriteLine($"\nYou have completed the {_name} for {_duration} seconds.");
         ShowSpinner(3);
     }
 
-    public int GetDuration()
+    protected int GetDuration()
     {
         return _duration;
     }
 
-    // Spinner animation
-    public void ShowSpinner(int seconds)
+    protected void ShowSpinner(int seconds)
     {
-        for (int i = 0; i < seconds * 2; i++)
+        string[] spinner = { "|", "/", "-", "\\" };
+        for (int i = 0; i < seconds * 5; i++)
         {
-            Console.Write("|");
-            Thread.Sleep(250);
-            Console.Write("\b/");
-            Thread.Sleep(250);
-            Console.Write("\b-");
-            Thread.Sleep(250);
-            Console.Write("\b\\");
-            Thread.Sleep(250);
-            Console.Write("\b");
+            Console.Write(spinner[i % spinner.Length]);
+            Thread.Sleep(200);
+            Console.Write("\b \b");
         }
-        Console.Write(" \b");
+        Console.WriteLine();
     }
 
-    // Countdown timer
-    public void ShowCountDown(int seconds)
+    protected void ShowCountDown(int seconds)
     {
         for (int i = seconds; i > 0; i--)
         {
@@ -65,4 +58,6 @@ public class Activity
             Console.Write("\b \b");
         }
     }
+
+    public abstract void Run();
 }

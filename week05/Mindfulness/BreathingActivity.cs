@@ -4,26 +4,24 @@ public class BreathingActivity : Activity
 {
     public BreathingActivity() 
         : base("Breathing Activity", 
-               "This activity will help you relax by guiding you to slowly breathe in and out.") { }
+            "This activity will help you relax by guiding you to slowly breathe in and out.") { }
 
-    public void Run()
+    public override void Run()
     {
         DisplayStartingMessage();
-
-        int duration = GetDuration();
-        DateTime endTime = DateTime.Now.AddSeconds(duration);
-
-        while (DateTime.Now < endTime)
+        int elapsed = 0;
+        while (elapsed < GetDuration())
         {
-            Console.Write("Breathe in... ");
-            ShowCountDown(4);
-            Console.WriteLine();
+            Console.Write("\nBreathe in... ");
+            ShowCountDown(3);
+            elapsed += 3;
 
-            Console.Write("Now breathe out... ");
-            ShowCountDown(6);
-            Console.WriteLine();
+            if (elapsed >= GetDuration()) break;
+
+            Console.Write("\nBreathe out... ");
+            ShowCountDown(3);
+            elapsed += 3;
         }
-
         DisplayEndingMessage();
     }
 }

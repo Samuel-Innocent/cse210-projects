@@ -3,46 +3,41 @@ using System.Collections.Generic;
 
 public class ListingActivity : Activity
 {
-    private List<string> _prompts = new List<string>
+    private List<string> _prompts = new List<string>()
     {
         "Who are people that you appreciate?",
         "What are personal strengths of yours?",
-        "Who are people you have helped this week?",
-        "When have you felt the Holy Ghost this month?",
+        "Who are people that you have helped this week?",
+        "When have you felt the Spirit this month?",
         "Who are some of your personal heroes?"
     };
 
-    public ListingActivity()
-        : base("Listing Activity",
-               "This activity will help you reflect on the good things in your life by having you list as many things as you can.") { }
+    private Random _random = new Random();
 
-    public void Run()
+    public ListingActivity() 
+        : base("Listing Activity", 
+            "This activity will help you reflect on the good things in your life by having you list as many things as you can.") { }
+
+    public override void Run()
     {
         DisplayStartingMessage();
-        Random random = new Random();
-
-        Console.WriteLine("List as many responses as you can to the following prompt:");
-        Console.WriteLine($"--- {_prompts[random.Next(_prompts.Count)]} ---");
-        Console.Write("You may begin in: ");
+        string prompt = _prompts[_random.Next(_prompts.Count)];
+        Console.WriteLine($"\n--- {prompt} ---");
+        Console.WriteLine("Start listing items after the countdown.");
         ShowCountDown(5);
-        Console.WriteLine();
 
-        int duration = GetDuration();
-        DateTime endTime = DateTime.Now.AddSeconds(duration);
+        int elapsed = 0;
+        List<string> items = new List<string>();
 
-        List<string> responses = new List<string>();
-
-        while (DateTime.Now < endTime)
+        while (elapsed < GetDuration())
         {
             Console.Write("> ");
-            string response = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(response))
-            {
-                responses.Add(response);
-            }
+            string input = Console.ReadLine();
+            items.Add(input);
+            elapsed += 3;
         }
 
-        Console.WriteLine($"You listed {responses.Count} items!");
+        Console.WriteLine($"\nYou listed {items.Count} items!");
         DisplayEndingMessage();
     }
 }

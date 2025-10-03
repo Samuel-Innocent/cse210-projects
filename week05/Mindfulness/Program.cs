@@ -4,40 +4,37 @@ class Program
 {
     static void Main(string[] args)
     {
-        int choice = 0;
+        
+        //=== Exceeding Requirements ===
+        //1. Added a new activity: "Gratitude Activity", which helps users list things they are thankful for.
+        //2. Improved reflection activity: ensures questions are not repeated until all have been shown.
+    
 
-        while (choice != 4)
+        while (true)
         {
-            Console.WriteLine("Menu Options:");
-            Console.WriteLine("  1. Start breathing activity");
-            Console.WriteLine("  2. Start reflecting activity");
-            Console.WriteLine("  3. Start listing activity");
-            Console.WriteLine("  4. Quit");
-            Console.Write("Select a choice from the menu: ");
-            
-            choice = int.Parse(Console.ReadLine() ?? "4");
+            Console.Clear();
+            Console.WriteLine("Mindfulness Program");
+            Console.WriteLine("1. Breathing Activity");
+            Console.WriteLine("2. Reflecting Activity");
+            Console.WriteLine("3. Listing Activity");
+            Console.WriteLine("4. Gratitude Activity");
+            Console.WriteLine("5. Quit");
+            Console.Write("Choose an option: ");
+            string choice = Console.ReadLine();
 
-            if (choice == 1)
+            Activity activity = null;
+            switch (choice)
             {
-                BreathingActivity breathing = new BreathingActivity();
-                breathing.Run();
+                case "1": activity = new BreathingActivity(); break;
+                case "2": activity = new ReflectingActivity(); break;
+                case "3": activity = new ListingActivity(); break;
+                case "4": activity = new GratitudeActivity(); break;
+                case "5": return;
+                default: Console.WriteLine("Invalid choice!"); continue;
             }
-            else if (choice == 2)
-            {
-                ReflectingActivity reflecting = new ReflectingActivity();
-                reflecting.Run();
-            }
-            else if (choice == 3)
-            {
-                ListingActivity listing = new ListingActivity();
-                listing.Run();
-            }
-            else if (choice != 4)
-            {
-                Console.WriteLine("Invalid choice, please try again.");
-            }
+
+            activity.Run();
         }
-
-        Console.WriteLine("Goodbye!");
     }
 }
+
